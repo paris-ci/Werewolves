@@ -77,4 +77,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 .idea/
+
 Werewolves.iml
+client/__pycache__/
+common/__pycache__/
+server/__init__.pyc
+server/__pycache__/
+server/launch.pyc
