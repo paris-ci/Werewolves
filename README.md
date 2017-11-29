@@ -13,7 +13,7 @@ You'll find more documentation about the client in the docstrings and in the `cl
 
 ## Official server
 
-I currently host a server, located at `werewolves.api-d.com:8000`
+I currently host a server, located at `werewolves.api-d.com:8000` ([status](http://werewolves.api-d.com:8000/v1/status))
 
 ## Installation and developpement
 
