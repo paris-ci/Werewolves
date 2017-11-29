@@ -37,4 +37,7 @@ Follow instructions for installing in a local machine, then install gunicorn for
 
 You can launch the server using `gunicorn3 launch:__hug_wsgi__ --bind 0.0.0.0:8000`
 
+### Installation using Docker
+
+You can also try installing hug using docker as stated [here](https://github.com/timothycrosley/hug#using-docker). However, I never tested this method.
 
