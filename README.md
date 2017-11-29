@@ -15,3 +15,26 @@ You'll find more documentation about the client in the docstrings and in the `cl
 
 I currently host a server, located at `werewolves.api-d.com:8000`
 
+## Installation and developpement
+
+### Installation on a local machine
+
+Clone the repository using git : `git clone https://github.com/paris-ci/Werewolves.git`
+
+Change to the project directory : `cd Werewolves`
+
+(Optional, but needed by some IDE) Create a simlink to make common avalable in the Server Directory : `cd server/ && ln -s ./common ../common`
+
+Then, mark the `client/` and `server/` directory as source directories in your IDE if you use one.
+
+Install hug `pip3 install hug`
+
+Start the server using hug : `cd server/; hug -f ./launch.py`
+
+### Installation on a server
+
+Follow instructions for installing in a local machine, then install gunicorn for python3(.6) using your server package manager.
+
+You can launch the server using `gunicorn3 launch:__hug_wsgi__ --bind 0.0.0.0:8000`
+
+
