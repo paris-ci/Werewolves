@@ -70,7 +70,6 @@ class Game:
             "time_left": int(self.need_to_complete_phase_before - time.time()),
             "player_count": len(self.players),
             "mayor": self.mayor.uuid if self.mayor else None
-
         }
 
     def get_player_with_card(self, card):
