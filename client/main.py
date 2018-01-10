@@ -110,15 +110,30 @@ def print_centered(string, char="*", full=False):
 
     print(cstring.center(cols, char))
 
-def choix(message:str, liste_de_choix:list):
+
+def choix(message: str, liste_de_choix: list) -> str:
+    """
+    Cette fonction prend en compte la valeur entrer par l'utilisateur et la compare à une liste de string pour savoir
+    si elle est autorisé
+
+    :param message: Le message affiché à l'utilisateur lors de la demande d'un choix
+    :param liste_de_choix: Liste de strings de choix autorisés pour l'utilisateur
+    :return: La valeur choisie et vérifiée par l'utilisateur
+    """
     while True:
-        val = input(message + " > ")
+        val = input(message + " > ").lower()
         if val in liste_de_choix:
             return val
         else:
             print(f"Je n'ai pas compris... Choix possibles : {liste_de_choix}")
 
+
 def main_menu():
+    """
+    Cette fonction affiche et gère le menu principal
+
+    :return:
+    """
     print_centered("Menu Principal", full=True)
     print_centered("1) Créer une partie")
     print_centered("2) Rejoindre une partie")
@@ -132,20 +147,61 @@ def main_menu():
     elif next_action == "3":
         exit(0)
 
+    if game is not None:
+        in_game(game)
+
+
+
+
+
 def create_game():
     api.create_game(input("Nom de la partie > "))
+
 
 def game_join_menu():
     print_centered("Rejoindre une partie", full=True)
     games = api.list_games()
-    for game in games:
-        print_centered(game.name)
+    for i, game in enumerate(games):
+        i_plus_un = i + 1
+        print_centered(f"{i_plus_un}) {game.name}")
+    print_centered("")
+    print_centered("a) Revenir au menu principal")
+    print_centered("", full=True)
+    liste_de_choix = list(map(str, list(range(1, len(games) + 1)))) + ["a"]
+    """(map) prend les éléments de la liste et une liste
+     des éléments passé dans la fonction 'str' dans le cas présent"""
+    next_action = choix("Quelle partie souhaitez-vous rejoindre ?", liste_de_choix)
+    if next_action == 'a':
+        return
+    else:
+        return api.join_game(games[int(next_action)-1])
 
-
-
-
-
+def in_game(game_obj):
+    while True:
+        game_obj = api.get_game(game_obj.uuid, force_update=True)
+        if game_obj.phase ==  0:
+            print("Le jeu n'a pas encore commencé les ami(e)s !")
+            print("Liste des joueurs en ligne:")
+            print("\n".join([e.name for e in game_obj.players]))
+        elif game_obj.phase ==  1:
+            print("Choisir un maire !")
+        elif game_obj.phase ==  10:
+            print("Nuit - Le voleur peut voler une carte")
+        elif game_obj.phase ==  11:
+            print("Nuit - La magie de Cupidon opère")
+        elif game_obj.phase ==  12:
+            print("Nuit - Les loups choississent leur proie et la Voyante choisi une carte a révéler")
+        elif game_obj.phase ==  13:
+            print("Nuit - La sorcièere peut tuer ou sauver un joueur")
+        elif game_obj.phase ==  20:
+            print("Jour - Vote")
+        elif game_obj.phase ==  21:
+            print("Jour - Post vote - Chasseur")
+        elif game_obj.phase ==  99:
+            print("Fin !")
 clear_screen()
+
+
 print("Bienvenue sur WERWOLVES !")
 api = Api(str(input("Quel est le pseudo que vous voulez utiliser ?>")))
 
