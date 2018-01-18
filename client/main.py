@@ -275,16 +275,21 @@ def in_game(game_obj):
         elif game_obj.phase == 13:
             print("Nuit - La sorcière peut tuer ou sauver un joueur")
             if carte == 'sorceress':
-                print_centered("1/ Tuer")
-                print_centered("2/ Sauver")
-                action_sorc = choix("Voulez-vous tuer ou sauver?", ['1', '2'])
-                if action_sorc == '1':
-                    api.select_player(game_obj, vote(game_obj, "Choissez une personne à tuer"))
-                elif action_sorc == '2':
-                    api.select_player(game_obj, vote(game_obj, "Choissez une personne à sauver"))
+                if last_phase != 13:
+                    print_centered("1/ Tuer")
+                    print_centered("2/ Sauver")
+                    action_sorc = choix("Voulez-vous tuer ou sauver?", ['1', '2'])
+                    if action_sorc == '1':
+                        api.select_player(game_obj, vote(game_obj, "Choissez une personne à tuer"))
+                    elif action_sorc == '2':
+                        api.select_player(game_obj, vote(game_obj, "Choissez une personne à sauver"))
+                    last_phase = 13
         elif game_obj.phase == 20:
             print("Le jour se lève - Vote")
-            api.select_player(game_obj, vote(game_obj, "Choissez une personne à tuer"))
+            if last_phase != 20:
+                api.select_player(game_obj, vote(game_obj, "Choissez une personne à tuer"))
+                last_phase = 20
+
         elif game_obj.phase == 99:
             print("Fin !")
         time.sleep(1)
