@@ -12,7 +12,36 @@ import struct
 import platform
 import subprocess
 
+print('''
 
+m     m  mmm    m mm   mmm  m     m  mmm     #    m   m   mmm    mmm
+"m m m" #"  #   #"  " #"  # "m m m" #" "#    #    "m m"  #"  #  #   "
+ #m#m#  #""""   #     #""""  #m#m#  #   #    #     #m#   #""""   """m
+  # #   "#mm"   #     "#mm"   # #   "#m#"    "mm    #    "#mm"  "mmm"
+''')
+print("""
+                                     ,ood8888booo,
+                                  ,od8'         `8bo,
+                               ,odP                 Ybo,
+                             ,d8'                     `8b,
+                            ,oP                         Yo,
+                           ,8                             8,
+                           8Y                             Y8
+                           8l                   aba       l8
+                           Ya               ,ad'  8       aY
+                            Y8,           aY8,   ,P     ,8Y
+                             Y8o          aP     8     o8Y
+                              `Y8      ,aP'      8    8Y'
+                      ,arooowwwwwooo88P'        d'  aY'
+                   ,adP                        ,aa8P
+                  aP  a8a,                     d'
+                 $       Y          ,    ,    ,8
+                $  $,    P     a8888b   daaa  8
+               $  $ Y  aP 8  ad      8  8   8 `a
+               $ $  8 8  d  P        d ,P   `8 8
+               `$'  d 8  `8 ba       Y 8     `8 ba
+                    8  ba  8a$       8  ba    `8a$
+                     Yaa$             Yaa$""")
 def get_terminal_size():
     """ getTerminalSize()
      - get width and height of console
@@ -138,7 +167,14 @@ def main_menu():
 
     :return:
     """
-    print_centered("Menu Principal", full=True)
+    print_centered("""  __  __                               _            _             _ 
+ |  \/  |                             (_)          (_)           | |
+ | \  / | ___ _ __  _   _   _ __  _ __ _ _ __   ___ _ _ __   __ _| |
+ | |\/| |/ _ \ '_ \| | | | | '_ \| '__| | '_ \ / __| | '_ \ / _` | |
+ | |  | |  __/ | | | |_| | | |_) | |  | | | | | (__| | |_) | (_| | |
+ |_|  |_|\___|_| |_|\__,_| | .__/|_|  |_|_| |_|\___|_| .__/ \__,_|_|
+                           | |                       | |            
+                           |_|                       |_|            """, full=True)
     print_centered("1) Créer une partie")
     print_centered("2) Rejoindre une partie")
     print_centered("3) Quitter le jeu :(")
@@ -187,9 +223,9 @@ def game_join_menu():
 
 def vote(game, question, nombre_a_tuer=1):
     """ Cette fonction sert à faire voter l'utilisateur
-    :param game qui
-    :param question
-    :param nombre a tuer
+    :param game qui ?
+    :param question .,?
+    :param nombre a tuer ?
     :return la personne qui va etre tuer
     """
     personnes_a_tuer = []
@@ -209,6 +245,7 @@ def vote(game, question, nombre_a_tuer=1):
         personnes_a_tuer.append(personnes_vivantes.pop(int(c) - 1))
 
     return personnes_a_tuer
+
 
 
 def in_game(game_obj):
@@ -280,13 +317,35 @@ def in_game(game_obj):
                     print_centered("2/ Sauver")
                     action_sorc = choix("Voulez-vous tuer ou sauver?", ['1', '2'])
                     if action_sorc == '1':
-                        api.select_player(game_obj, vote(game_obj, "Choissez une personne à tuer"))
+                        api.sorceress_select(game_obj, vote(game_obj, "Choissez une personne à tuer")[0], False)
                     elif action_sorc == '2':
-                        api.select_player(game_obj, vote(game_obj, "Choissez une personne à sauver"))
+                        api.sorceress_select(game_obj, game_obj.players_killed_last_night[0], True)
                     last_phase = 13
         elif game_obj.phase == 20:
             print("Le jour se lève - Vote")
             if last_phase != 20:
+                print_centered("Liste des joueurs tuer dans la nuit :")
+                print_centered('\n'.join([p.name for p in game_obj.players_killed_last_night]))
+                if api.get_player(api.uuid, force_update=True) not in game_obj.players_alive :
+                    print('''
+                    
+        _.---,._,'
+       /' _.--.<
+         /'     `'
+       /' _.---._____
+       \.'   ___, .-'`
+           /'    \\\\             .
+         /'       `-.          -|-
+        |                       |
+        |                   .-'~~~`-.
+        |                 .'         `.
+        |                 |  R  I  P  |
+  jgs   |                 |           |
+        |                 |           |
+         \              \\\\|           |//
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ''')
+                    return
                 api.select_player(game_obj, vote(game_obj, "Choissez une personne à tuer"))
                 last_phase = 20
 
