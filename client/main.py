@@ -117,13 +117,14 @@ def print_centered(string, char="*", full=False):
 
 def choix(message: str, liste_de_choix: list) -> str:
     """
-    Cette fonction prend en compte la valeur entrer par l'utilisateur et la compare à une liste de string pour savoir
-    si elle est autorisé
+    Cette fonction prend en compte la valeur entrer par l'utilisateur et la compare à une liste de strings pour savoir
+    si l'entrée est autorisée. Retourne une entrée de la liste passée en argument
 
     :param message: Le message affiché à l'utilisateur lors de la demande d'un choix
     :param liste_de_choix: Liste de strings de choix autorisés pour l'utilisateur
     :return: La valeur choisie et vérifiée par l'utilisateur
     """
+    assert len(liste_de_choix) > 0
     while True:
         val = input(message + " > ").lower()
         if val in liste_de_choix:
@@ -135,9 +136,8 @@ def choix(message: str, liste_de_choix: list) -> str:
 def main_menu():
     """
     Cette fonction affiche et gère le menu principal
-
-    :return:
     """
+
     print("""  __  __                               _            _             _ 
  |  \/  |                             (_)          (_)           | |
  | \  / | ___ _ __  _   _   _ __  _ __ _ _ __   ___ _ _ __   __ _| |
@@ -195,10 +195,10 @@ def game_join_menu():
 
 def vote(game, question, nombre_a_tuer=1):
     """ Cette fonction sert à faire voter l'utilisateur
-    :param game qui ?
-    :param question .,?
-    :param nombre a tuer ?
-    :return la personne qui va etre tuer
+    :param game: Object game (voir api.py)
+    :param question: Phrase a demander à l'utilisateur
+    :param nombre_a_tuer: Nombre de personnes à séléctionner
+    :return Un object Joueur:
     """
     personnes_a_tuer = []
     personnes_vivantes = game.players_alive
@@ -222,7 +222,7 @@ def vote(game, question, nombre_a_tuer=1):
 
 def in_game(game_obj):
     """ Cette fonction permet de gérer les différentes phases du jeu
-    :param  game_obj qui
+    :param  game_obj: Object game de l'api
     """
     last_phase = 0
 
