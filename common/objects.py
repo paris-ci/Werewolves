@@ -55,6 +55,7 @@ class Game:
         self.votes = {}
         self.players_killed_last_night = set()
         self.mayor = None
+        self.pristress_last_used = 0
 
     def public_dict(self):
         return {
@@ -307,8 +308,8 @@ class Card:
     def __init__(self, owner, name):
         self.name = name
         self.owner = owner
-        self.heal_potion = name == "sorceress"
-        self.kill_potion = name == "sorceress"
+        self.heal_potion = (name == "sorceress")
+        self.kill_potion = (name == "sorceress")
 
     def __str__(self):
         return self.name

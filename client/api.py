@@ -1,8 +1,4 @@
 import time
-
-
-
-
 API_URL = "http://werewolves.api-d.com:8000/"
 API_VERSION = "v1"
 COMPLETE_API_URL = API_URL + API_VERSION + "/"
@@ -230,9 +226,9 @@ class Api:
 
     def sorceress_select(self, game, player, save):
         if save:
-            save_or_kill = "y"
+            save_or_kill = "True"
         else:
-            save_or_kill = ""
+            save_or_kill = None
 
         self.call_api("sorceress_select", {"game_uuid": game.uuid, "player_uuid": player.uuid, "save_or_kill": save_or_kill})
 
