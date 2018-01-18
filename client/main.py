@@ -12,36 +12,7 @@ import struct
 import platform
 import subprocess
 
-print('''
 
-m     m  mmm    m mm   mmm  m     m  mmm     #    m   m   mmm    mmm
-"m m m" #"  #   #"  " #"  # "m m m" #" "#    #    "m m"  #"  #  #   "
- #m#m#  #""""   #     #""""  #m#m#  #   #    #     #m#   #""""   """m
-  # #   "#mm"   #     "#mm"   # #   "#m#"    "mm    #    "#mm"  "mmm"
-''')
-print("""
-                                     ,ood8888booo,
-                                  ,od8'         `8bo,
-                               ,odP                 Ybo,
-                             ,d8'                     `8b,
-                            ,oP                         Yo,
-                           ,8                             8,
-                           8Y                             Y8
-                           8l                   aba       l8
-                           Ya               ,ad'  8       aY
-                            Y8,           aY8,   ,P     ,8Y
-                             Y8o          aP     8     o8Y
-                              `Y8      ,aP'      8    8Y'
-                      ,arooowwwwwooo88P'        d'  aY'
-                   ,adP                        ,aa8P
-                  aP  a8a,                     d'
-                 $       Y          ,    ,    ,8
-                $  $,    P     a8888b   daaa  8
-               $  $ Y  aP 8  ad      8  8   8 `a
-               $ $  8 8  d  P        d ,P   `8 8
-               `$'  d 8  `8 ba       Y 8     `8 ba
-                    8  ba  8a$       8  ba    `8a$
-                     Yaa$             Yaa$""")
 def get_terminal_size():
     """ getTerminalSize()
      - get width and height of console
@@ -167,14 +138,15 @@ def main_menu():
 
     :return:
     """
-    print_centered("""  __  __                               _            _             _ 
+    print("""  __  __                               _            _             _ 
  |  \/  |                             (_)          (_)           | |
  | \  / | ___ _ __  _   _   _ __  _ __ _ _ __   ___ _ _ __   __ _| |
  | |\/| |/ _ \ '_ \| | | | | '_ \| '__| | '_ \ / __| | '_ \ / _` | |
  | |  | |  __/ | | | |_| | | |_) | |  | | | | | (__| | |_) | (_| | |
  |_|  |_|\___|_| |_|\__,_| | .__/|_|  |_|_| |_|\___|_| .__/ \__,_|_|
                            | |                       | |            
-                           |_|                       |_|            """, full=True)
+                           |_|                       |_|            """)
+    print_centered("", full=True)
     print_centered("1) Créer une partie")
     print_centered("2) Rejoindre une partie")
     print_centered("3) Quitter le jeu :(")
@@ -267,11 +239,10 @@ def in_game(game_obj):
 
         if game_obj.phase == 0:
 
-            if game_obj.owner == api.me:
+            if game_obj.owner == api.me and len(game_obj.players) > 1:
                 print_centered("1) Rafraichir les joueurs")
                 print_centered("2) Lancer la partie !")
                 action = choix("Que voulez-vous faire ?", ["1", "2"])
-
                 if action == "2":
                     api.start_game(game_obj)
                 else:
@@ -356,6 +327,42 @@ def in_game(game_obj):
 
 
 clear_screen()
+
+print('''
+
+m     m  mmm    m mm   mmm  m     m  mmm     #    m   m   mmm    mmm
+"m m m" #"  #   #"  " #"  # "m m m" #" "#    #    "m m"  #"  #  #   "
+ #m#m#  #""""   #     #""""  #m#m#  #   #    #     #m#   #""""   """m
+  # #   "#mm"   #     "#mm"   # #   "#m#"    "mm    #    "#mm"  "mmm"
+''')
+
+
+
+print("""
+                                     ,ood8888booo,
+                                  ,od8'         `8bo,
+                               ,odP                 Ybo,
+                             ,d8'                     `8b,
+                            ,oP                         Yo,
+                           ,8                             8,
+                           8Y                             Y8
+                           8l                   aba       l8
+                           Ya               ,ad'  8       aY
+                            Y8,           aY8,   ,P     ,8Y
+                             Y8o          aP     8     o8Y
+                              `Y8      ,aP'      8    8Y'
+                      ,arooowwwwwooo88P'        d'  aY'
+                   ,adP                        ,aa8P
+                  aP  a8a,                     d'
+                 $       Y          ,    ,    ,8
+                $  $,    P     a8888b   daaa  8
+               $  $ Y  aP 8  ad      8  8   8 `a
+               $ $  8 8  d  P        d ,P   `8 8
+               `$'  d 8  `8 ba       Y 8     `8 ba
+                    8  ba  8a$       8  ba    `8a$
+                     Yaa$             Yaa$""")
+
+
 
 print("Bienvenue sur WERWOLVES !")
 api = Api(str(input("Quel est le pseudo que vous voulez utiliser ?>")))
