@@ -163,6 +163,7 @@ def create_game():
 
 def game_join_menu():
     """ Cette fonction sert à rejoindre une partie en ligne """
+
     print_centered("Rejoindre une partie", full=True)
     games = api.list_games()
     for i, game in enumerate(games):
@@ -235,6 +236,10 @@ def in_game(game_obj):
 
                 if action == "2":
                     api.start_game(game_obj)
+                else:
+                    print("Liste des joueurs en ligne:")
+                    print("\n".join([e.name for e in game_obj.players]))
+                
             else:
                 print("Le jeu n'a pas encore commencé les ami(e)s !")
                 print("Liste des joueurs en ligne:")
