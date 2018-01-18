@@ -199,7 +199,8 @@ def vote(game, question, nombre_a_tuer=1):
         print_centered("Quel est votre vote ?", full=True)
         liste_de_noms = [p.name for p in personnes_vivantes]
         for j, nom in enumerate(liste_de_noms):
-            print_centered(f"{j}) {nom}")
+            j_plus_un = j + 1
+            print_centered(f"{j_plus_un}) {nom}")
 
         print_centered("", full=True)
 
@@ -239,7 +240,7 @@ def in_game(game_obj):
                 else:
                     print("Liste des joueurs en ligne:")
                     print("\n".join([e.name for e in game_obj.players]))
-                
+
             else:
                 print("Le jeu n'a pas encore commencé les ami(e)s !")
                 print("Liste des joueurs en ligne:")
