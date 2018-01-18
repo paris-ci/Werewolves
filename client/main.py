@@ -290,6 +290,7 @@ def in_game(game_obj):
         time.sleep(1)
 
 
+
 clear_screen()
 
 print("Bienvenue sur WERWOLVES !")
