@@ -100,7 +100,11 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
+######################################################################################################################
+
+
 def print_centered(string, char="*", full=False):
+    """Cette fonction sert à afficher au centre du terminal"""
     cols, lign = get_terminal_size()
 
     if full:
@@ -151,11 +155,14 @@ def main_menu():
     if game is not None:
         in_game(game)
 
+
 def create_game():
+    """ Cette fonction crée une partie dans l'api """
     return api.create_game(input("Nom de la partie > "))
 
 
 def game_join_menu():
+    """ Cette fonction sert à rejoindre une partie en ligne """
     print_centered("Rejoindre une partie", full=True)
     games = api.list_games()
     for i, game in enumerate(games):
@@ -165,21 +172,25 @@ def game_join_menu():
     print_centered("a) Revenir au menu principal")
     print_centered("", full=True)
     liste_de_choix = list(map(str, list(range(1, len(games) + 1)))) + ["a"]
-    """(map) prend les éléments de la liste et une liste
+
+    """(list) va prendre l'élément et en faire une liste
+       (map) prend les éléments applique la focntion str a chacun
      des éléments passé dans la fonction 'str' dans le cas présent"""
+
     next_action = choix("Quelle partie souhaitez-vous rejoindre ?", liste_de_choix)
     if next_action == 'a':
         return
     else:
-        return api.join_game(games[int(next_action)-1])
-def tableau_de_vote(game_obj):
-    liste_de_choix = []
-    for i, player in enumerate(game_obj.players_alive):
-        i_plus_un = i + 1
-        print_centered(f"{i_plus_un}) {player.name}")
-        liste_de_choix = list(map(str, list(range(1, len(game_obj.players) + 1))))
+        return api.join_game(games[int(next_action) - 1])
+
 
 def vote(game, question, nombre_a_tuer=1):
+    """ Cette fonction sert à faire voter l'utilisateur
+    :param game qui
+    :param question
+    :param nombre a tuer
+    :return la personne qui va etre tuer
+    """
     personnes_a_tuer = []
     personnes_vivantes = game.players_alive
 
@@ -199,6 +210,9 @@ def vote(game, question, nombre_a_tuer=1):
 
 
 def in_game(game_obj):
+    """ Cette fonction permet de gérer les différentes phases du jeu
+    :param  game_obj qui
+    """
     last_phase = 0
 
     while True:
@@ -212,14 +226,13 @@ def in_game(game_obj):
 
             print_centered(f"Votre maire à tous : {maire}")
 
-
-
-
         if game_obj.phase == 0:
-            if game_obj.owner == api.me :
+
+            if game_obj.owner == api.me:
                 print_centered("1) Rafraichir les joueurs")
                 print_centered("2) Lancer la partie !")
-                action = choix("Que voulez-vous faire ?",["1","2"])
+                action = choix("Que voulez-vous faire ?", ["1", "2"])
+
                 if action == "2":
                     api.start_game(game_obj)
             else:
@@ -227,44 +240,47 @@ def in_game(game_obj):
                 print("Liste des joueurs en ligne:")
                 print("\n".join([e.name for e in game_obj.players]))
 
+        elif game_obj.phase == 1:
 
-        elif game_obj.phase ==  1:
             if last_phase != 1:
                 print("Choisir un maire !")
                 api.select_player(game_obj, vote(game_obj, "Choissez une personne à élire"))
                 last_phase = 1
-        elif game_obj.phase ==  10:
+
+        elif game_obj.phase == 10:
+
             print("Nuit - Le voleur peut voler une carte")
             last_phase = 10
-        elif game_obj.phase ==  11:
+
+        elif game_obj.phase == 11:
             print("Nuit - La magie de Cupidon opère")
             last_phase = 11
-        elif game_obj.phase ==  12:
+
+        elif game_obj.phase == 12:
             print("Nuit - Les loups choississent leur proie et la Voyante choisi une carte a révéler")
-            if carte == 'werewolve' :
+            if carte == 'werewolve':
                 if last_phase != 12:
                     api.select_player(game_obj, vote(game_obj, "Choissez une personne à dévorer"))
                     last_phase = 12
                 else:
                     print_centered("Vos copains finissent de manger !")
-            else :
+            else:
                 print(" Les loups dévorent leurs proies ! ")
-        elif game_obj.phase ==  13:
+        elif game_obj.phase == 13:
             print("Nuit - La sorcière peut tuer ou sauver un joueur")
-            if carte == 'sorceress' :
+            if carte == 'sorceress':
                 print_centered("1/ Tuer")
                 print_centered("2/ Sauver")
-                choix("Voulez-vous tuer ou sauver?",['1','2'])
-                api.sorceress_select(game_obj, vote(game_obj, "Tuer ou Sauver ?"))
-        elif game_obj.phase ==  20:
+                choix("Voulez-vous tuer ou sauver?", ['1', '2'])
+        elif game_obj.phase == 20:
             print("Le jour se lève - Vote")
             api.select_player(game_obj, vote(game_obj, "Choissez une personne à tuer"))
-        elif game_obj.phase ==  99:
+        elif game_obj.phase == 99:
             print("Fin !")
         time.sleep(1)
 
-clear_screen()
 
+clear_screen()
 
 print("Bienvenue sur WERWOLVES !")
 api = Api(str(input("Quel est le pseudo que vous voulez utiliser ?>")))
@@ -272,4 +288,3 @@ api = Api(str(input("Quel est le pseudo que vous voulez utiliser ?>")))
 while True:
     clear_screen()
     main_menu()
-
