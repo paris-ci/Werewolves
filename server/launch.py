@@ -368,8 +368,8 @@ def sorceress_select(player: hug.directives.user, game_uuid: hug.types.text, pla
 
     else:
         if save:
-            if player.cards[game].heal_portion:
-                player.cards[game].heal_portion = False
+            if player.cards[game].heal_potion:
+                player.cards[game].heal_potion = False
             else:
                 gen_error("NoHealPotion", "You don't have a heal potion")
             game.players_killed_last_night.remove(target_player)
